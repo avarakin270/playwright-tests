@@ -78,6 +78,21 @@ const elements: Elements[] = [
     locator: (page: Page): Locator => page.getByRole('button', { name: 'Search (Command+K)' }),
     name: 'Search button',
   },
+  {
+    locator: (page: Page): Locator =>
+      page.getByRole('heading', { name: 'Playwright enables reliable' }),
+    name: 'Title',
+    text: 'Playwright enables reliable end-to-end testing for modern web apps.',
+  },
+  {
+    locator: (page: Page): Locator => page.getByRole('link', { name: 'Get started' }),
+    name: 'Get started button',
+    text: 'Get started',
+    attribute: {
+      type: 'href',
+      value: '/docs/intro',
+    },
+  },
 ];
 
 test.describe('The Main Page tests', () => {
@@ -116,21 +131,5 @@ test.describe('The Main Page tests', () => {
     await page.locator('xpath=//*[@class="clean-btn toggleButton_gllP"]').click();
     await page.locator('xpath=//*[@class="clean-btn toggleButton_gllP"]').click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  });
-
-  test('Page title check', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Playwright enables reliable' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Playwright enables reliable' })).toContainText(
-      'Playwright enables reliable end-to-end testing for modern web apps.',
-    );
-  });
-
-  test('Get started button check', async ({ page }) => {
-    await expect(page.getByRole('link', { name: 'Get started' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Get started' })).toContainText('Get started');
-    await expect(page.getByRole('link', { name: 'Get started' })).toHaveAttribute(
-      'href',
-      '/docs/intro',
-    );
   });
 });
