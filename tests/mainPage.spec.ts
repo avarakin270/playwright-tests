@@ -95,6 +95,8 @@ const elements: Elements[] = [
   },
 ];
 
+const pageMods = ['light', 'dark', 'system'];
+
 test.describe('The Main Page tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('https://playwright.dev/');
@@ -131,5 +133,13 @@ test.describe('The Main Page tests', () => {
     await page.locator('xpath=//*[@class="clean-btn toggleButton_gllP"]').click();
     await page.locator('xpath=//*[@class="clean-btn toggleButton_gllP"]').click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  });
+  pageMods.forEach((value) => {
+    test(`Check page styles for active ${value} mode`, async ({ page }) => {
+      await page.evaluate((value) => {
+        document.querySelector('html')?.setAttribute('data-theme-choice', value);
+      }, value);
+      await expect(page).toHaveScreenshot(`PageWith${value}Mode.png`);
+    });
   });
 });
